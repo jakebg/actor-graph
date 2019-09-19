@@ -10,24 +10,27 @@ tmdb.API_KEY = API
 
 movie_list = [603, 245891, 324552 ]
 
-nodes = []
-edges = []
-repeat_cast = dict()
+full_list = []
 in_movie = []
-titles = []
-for a,movie in enumerate(movie_list):
+main_nodes = []
+for j,movie in enumerate(movie_list):
     current_movie = tmdb.Movies(movie)
     dictionary = current_movie.credits()
     cast = [s['name'] for s in dictionary['cast'][:]]   
     title = current_movie.info()['original_title']  
-    print(cast)
+    print(title)
     for cast_graph in cast:
-        if cast_graph not in [person1['name'] for person1 in nodes[:]]:
-            nodes.append({'name': cast_graph})
+        if cast_graph not in [person1['name'] for person1 in full_list[:]]:
+            full_list.append({'name': cast_graph,'movie': title, 'count': 1})
         else:
             print('REPEAT')
 
+   
+#print([s['name'] for s in full_list[:]])
+test = pd.DataFrame(full_list)
+print(test)
 
-print(repeat_cast)
 
-# print([s['name'] for s in nodes[:]])
+# check through total cast
+# find out who has most appearences in each movie
+# they are main nodes 
