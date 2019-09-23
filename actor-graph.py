@@ -20,17 +20,19 @@ for j,movie in enumerate(movie_list):
     title = current_movie.info()['original_title']  
     print(title)
     for cast_graph in cast:
-        if cast_graph not in [person1['name'] for person1 in full_list[:]]:
-            full_list.append({'name': cast_graph,'movie': title, 'count': 1})
-        else:
-            print('REPEAT')
+        full_list.append({'name': cast_graph,'movie': title})
+
 
    
 #print([s['name'] for s in full_list[:]])
-test = pd.DataFrame(full_list)
-print(test)
+df_actor = pd.DataFrame(full_list)
+value_counts = df_actor['name'].value_counts()
+df_vc = value_counts.rename_axis('names').reset_index(name='count')
+print(df_vc)
 
-
-# check through total cast
-# find out who has most appearences in each movie
-# they are main nodes 
+repeat_actors = []
+for index,row in df_vc.iterrows():
+    if (row['count'] > 1):
+        print(row['names'])
+        repeat_actors.append(row['names'])
+print(repeat_actors)
